@@ -4,7 +4,7 @@ import {
 import {GlobalSearchService, SearchQuery, SortOption} from './global-search.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import {Sort} from '../../common/data/page';
+import {Sort} from '../../common/data/sort';
 
 
 

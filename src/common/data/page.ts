@@ -1,5 +1,6 @@
 
 import {HttpParams} from '@angular/common/http';
+import {Sort} from './sort';
 
 export class Page<T>{
 
@@ -26,15 +27,6 @@ export class Page<T>{
     page.numberOfElements = data.length;
     return page;
   }
-
-}
-
-
-export class Sort {
-  constructor (
-    public readonly prop: string,
-    public readonly dir: string
-  ) { }
 }
 
 export class Pageable {

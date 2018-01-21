@@ -1,11 +1,15 @@
 
-import {DataContext, IDataContext} from './data-context';
-import {PagedDataContext} from './data-context-paged';
-import {Page, Pageable, Sort} from './page';
+import {IDataContext} from './data-context';
+import {Page, Pageable} from './page';
 import {Filter} from './filter';
 import {Observable} from 'rxjs/Observable';
 import {MaterialDataContext} from './data-context-material';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {SimpleDataContext} from './data-context-simple';
+import {PagedDataContext} from './data-context-paged';
+import {ContinuableDataContext} from './data-context-continuable';
+import {ContinuableListing} from './continuable-listing';
+import {Sort} from './sort';
 
 
 /**
@@ -86,7 +90,7 @@ export class DataContextBuilder<T> {
     }
 
     public build( listFetcher: (sorts: Sort[], filters?: Filter[]) => Observable<Array<T>>): IDataContext<T> {
-        return this.applyProxies(new DataContext<T>(
+        return this.applyProxies(new SimpleDataContext<T>(
             listFetcher,
             this._indexFn,
             this._localSort,
@@ -107,8 +111,20 @@ export class DataContextBuilder<T> {
         ));
     }
 
+    public buildContiunuation(
+        continuationLoader: (nextToken: string, filters?: Filter[]) => Observable<ContinuableListing<T>>
+    ): IDataContext<T> {
+        return this.applyProxies(new ContinuableDataContext<T>(
+            continuationLoader,
+            this._pageSize,
+            this._indexFn,
+            this._localSort,
+            this._localApply
+        ));
+    }
+
     public buildEmpty(): IDataContext<T> {
-        let emptyContext = new DataContext<T>( (a, b) => Observable.empty());
+        let emptyContext = new SimpleDataContext<T>( (a, b) => Observable.empty());
         return this.applyProxies(emptyContext);
     }
 

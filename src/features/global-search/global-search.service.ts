@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject, Observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
-import {Sort} from '../../common/data/page';
+import {Sort} from '../../common/data/sort';
 
 
 
